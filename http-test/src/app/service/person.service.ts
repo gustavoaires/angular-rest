@@ -8,22 +8,23 @@ import { Person } from '../model/person.model';
 export class PersonService {
   private people: Person[] = [];
   static URL: string =
-    'http://rest.learncode.academy/api/outro/person/';
+    'http://localhost:3000/people/';
 
   constructor(private http: Http) {}
 
   addPerson(person: Person) {
-    console.log(`ADDSERVICE`)
     return this.http
       .post(PersonService.URL, person)
         .map((response: Response) => {
           this.people.push(response.json());
+          return response.json();
         })
-        .catch((error: Response) => Observable.throw(error));
+        .catch((error: Response) => {
+          return Observable.throw(error);
+        });
   }
 
   getPeople() {
-    console.log('GETSERVICE')
     return this.http
       .get(PersonService.URL)
         .map((response: Response) => {
@@ -34,10 +35,19 @@ export class PersonService {
   }
 
   updatePerson(person: Person) {
-    console.log('UPDATESERVICE')
     return this.http
       .put(`${PersonService.URL}${person.id}`, person)
-        .map((response: Response) => console.log(response.json()))
+        .map((response: Response) => response.json())
+        .catch((error: Response) => Observable.throw(error));
+  }
+
+  deletePerson(person: Person) {
+    return this.http
+      .delete(`${PersonService.URL}${person.id}`)
+        .map((response: Response) => {
+          this.people.splice(this.people.indexOf(person), 1);
+          return response.json();
+        })
         .catch((error: Response) => Observable.throw(error));
   }
 }

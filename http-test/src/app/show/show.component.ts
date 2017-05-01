@@ -14,15 +14,28 @@ export class ShowComponent {
     this.getPeople();
   }
 
-  edit() {
-
+  edit(person: Person) {
+    person.name = person.name + ' X';
+    this.personService.updatePerson(person)
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
+    location.reload();
   }
 
   getPeople() {
-    console.log('GET')
     this.personService.getPeople()
       .subscribe(
         data => this.people = data,
+        error => console.log(error)
+      );
+  }
+
+  remove(person: Person) {
+    this.personService.deletePerson(person)
+      .subscribe(
+        data => console.log(data),
         error => console.log(error)
       );
   }

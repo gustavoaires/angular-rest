@@ -8,14 +8,20 @@ import { Person } from '../model/person.model';
 })
 
 export class RegisterComponent {
-  person: Person;
+  name: string;
+  email: string;
 
-  constructor(private personService: PersonService) {
-    this.person = new Person();
-  }
+  constructor(private personService: PersonService) {}
 
   register() {
-    console.log('POST')
-    this.personService.addPerson(this.person);
+    console.log('POST');
+    let person = new Person();
+    person.name = this.name;
+    person.email = this.email;
+    this.personService.addPerson(person)
+      .subscribe(
+        data => console.log(data),
+        error => console.log(error)
+      );
   }
 }

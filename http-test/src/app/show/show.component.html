@@ -9,6 +9,8 @@
       <td>{{person.id}}</td>
       <td>{{person.name}}</td>
       <td>{{person.email}}</td>
+      <td><button type="button" (click)="edit(person)">Edit</button></td>
+      <td><button type="button" (click)="remove(person)">Remove</button></td>
     </tr>
   </tbody>
 </table>
